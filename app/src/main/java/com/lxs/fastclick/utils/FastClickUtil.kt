@@ -1,12 +1,16 @@
-package com.lxs.fastclick
+package com.lxs.fastclick.utils
 
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.FrameLayout
+import android.widget.ListView
+import com.lxs.fastclick.DelegateImp
+import com.lxs.fastclick.DelegateItemImp
+import com.lxs.fastclick.listener.DelegateOnClickListener
+import com.lxs.fastclick.listener.DelegateOnItemClickListener
 
 
 /**
@@ -17,7 +21,7 @@ import android.widget.FrameLayout
  */
 object FastClickUtil {
     fun init(app: Application) {
-        app.registerActivityLifecycleCallbacks(object :Application.ActivityLifecycleCallbacks{
+        app.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityPaused(activity: Activity?) {
             }
 
@@ -51,13 +55,20 @@ object FastClickUtil {
 
         if (hasOnClick) {
             val listener = ReflectUtils.getOnClickListener(view)
-            if (view !is AdapterView<*>) {
-                if (listener !is DelegateOnClickListener) {
-                    view.setOnClickListener(DelegateImp(listener))
+
+            if (listener !is DelegateOnClickListener) {
+                view.setOnClickListener(DelegateImp(listener))
+            }
+        } else {
+            if (view is ListView) {
+                val onItemClickListener = ReflectUtils.getOnItemClickListener(view)
+                if (onItemClickListener !is DelegateOnItemClickListener) {
+                    view.onItemClickListener = DelegateItemImp(onItemClickListener)
                 }
             }
         }
 
+        //递归
         if (view is ViewGroup) {
             for (item in 0 until view.childCount) {
                 val childView = view.getChildAt(item)

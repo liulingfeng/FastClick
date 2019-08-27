@@ -1,7 +1,10 @@
-package com.lxs.fastclick;
+package com.lxs.fastclick.utils;
 
 import android.annotation.SuppressLint;
 import android.view.View;
+import android.widget.AdapterView;
+
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -40,6 +43,23 @@ public class ReflectUtils {
                 e.printStackTrace();
             }
         }
+        return null;
+    }
+
+    public static AdapterView.OnItemClickListener getOnItemClickListener(View view) {
+        try {
+            Field field = AdapterView.class.getDeclaredField("mOnItemClickListener");
+            field.setAccessible(true);
+            Object onItemClickListener = field.get(view);
+            if (onItemClickListener instanceof AdapterView.OnItemClickListener) {
+                return (AdapterView.OnItemClickListener) onItemClickListener;
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 }

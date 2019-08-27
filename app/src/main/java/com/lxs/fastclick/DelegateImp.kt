@@ -1,7 +1,8 @@
 package com.lxs.fastclick
 
-import android.util.Log
 import android.view.View
+import com.lxs.fastclick.listener.DelegateOnClickListener
+import com.lxs.fastclick.utils.ToastUtils
 
 /**
  * @author liuxiaoshuai
@@ -9,7 +10,8 @@ import android.view.View
  * @desc
  * @email liulingfeng@mistong.com
  */
-class DelegateImp constructor(private var listener: View.OnClickListener?) : DelegateOnClickListener {
+class DelegateImp constructor(private var listener: View.OnClickListener?) :
+    DelegateOnClickListener {
 
     override fun onClick(v: View?) {
         val currentTime = System.currentTimeMillis()
@@ -21,7 +23,7 @@ class DelegateImp constructor(private var listener: View.OnClickListener?) : Del
             listener?.onClick(v)
             v?.setTag(v.id, currentTime)
         } else {
-            Log.e("德玛", "点击太过于频繁")
+            ToastUtils.show("点击太过于频繁")
         }
     }
 }

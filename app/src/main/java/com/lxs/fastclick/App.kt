@@ -1,14 +1,13 @@
 package com.lxs.fastclick
 
-import android.app.Activity
 import android.app.Application
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
+import com.lxs.fastclick.utils.FastClickUtil
+import com.lxs.fastclick.utils.ReflectUtils
+import com.lxs.fastclick.utils.ToastUtils
 import java.util.*
-import android.widget.FrameLayout as FrameLayout1
 
 /**
  * @author liuxiaoshuai
@@ -20,6 +19,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        ToastUtils.init(this)
         FastClickUtil.init(this)
     }
 

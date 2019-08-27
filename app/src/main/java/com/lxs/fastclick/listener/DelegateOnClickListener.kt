@@ -1,4 +1,4 @@
-package com.lxs.fastclick
+package com.lxs.fastclick.listener
 
 import android.view.View
 

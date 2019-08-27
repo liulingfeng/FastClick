@@ -52,7 +52,6 @@ object FastClickUtil {
 
     fun setClickListener(view: View) {
         val hasOnClick = view.hasOnClickListeners()
-
         if (hasOnClick) {
             val listener = ReflectUtils.getOnClickListener(view)
 

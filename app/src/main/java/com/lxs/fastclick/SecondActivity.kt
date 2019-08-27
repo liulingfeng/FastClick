@@ -15,9 +15,5 @@ class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
-
-        tv_content.setOnClickListener {
-            ToastUtils.show("同个id是否有影响")
-        }
     }
 }

@@ -9,7 +9,7 @@ import com.lxs.fastclick.utils.FastClickLayoutInflater
 /**
  * @author liuxiaoshuai
  * @date 2019-09-02
- * @desc 用factory代理的方式实现
+ * @desc 用factory代理的方式实现，所有需要点击代理的Activity继承这个基类
  * @email liulingfeng@mistong.com
  */
 @SuppressLint("Registered")

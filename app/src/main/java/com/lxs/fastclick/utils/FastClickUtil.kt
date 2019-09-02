@@ -3,6 +3,7 @@ package com.lxs.fastclick.utils
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -11,6 +12,7 @@ import com.lxs.fastclick.imp.DelegateImp
 import com.lxs.fastclick.imp.DelegateItemImp
 import com.lxs.fastclick.listener.DelegateOnClickListener
 import com.lxs.fastclick.listener.DelegateOnItemClickListener
+import java.util.*
 
 
 /**
@@ -50,29 +52,37 @@ object FastClickUtil {
         })
     }
 
-    fun setClickListener(view: View) {
-        val hasOnClick = view.hasOnClickListeners()
-        if (hasOnClick) {
-            val listener = ReflectUtils.getOnClickListener(view)
-
-            if (listener !is DelegateOnClickListener) {//可以处理不需要加快速点击的需求
-                view.setOnClickListener(DelegateImp(listener))
-            }
-        } else {
-            if (view is ListView) {
-                val onItemClickListener = ReflectUtils.getOnItemClickListener(view)
-                if (onItemClickListener !is DelegateOnItemClickListener) {
-                    view.onItemClickListener = DelegateItemImp(onItemClickListener)
+    /**
+     * 用广度遍历
+     * 用递归性能比较差
+     */
+    fun setClickListener(rootView: View) {
+        val queue = ArrayDeque<View>()
+        queue.addLast(rootView)
+        while (!queue.isEmpty()) {
+            val temp = queue.first
+            if (temp is ViewGroup) {
+                for (item in 0 until temp.childCount) {
+                    queue.addLast(temp.getChildAt(item))
                 }
             }
-        }
 
-        //递归
-        if (view is ViewGroup) {
-            for (item in 0 until view.childCount) {
-                val childView = view.getChildAt(item)
-                setClickListener(childView)
+            val hasOnClick = temp.hasOnClickListeners()
+            if (hasOnClick) {
+                val listener = ReflectUtils.getOnClickListener(temp)
+                if (listener !is DelegateOnClickListener) {//可以处理不需要加快速点击的需求
+                    temp.setOnClickListener(DelegateImp(listener))
+                }
+            } else {
+                if (temp is ListView) {
+                    val onItemClickListener = ReflectUtils.getOnItemClickListener(temp)
+                    if (onItemClickListener !is DelegateOnItemClickListener) {
+                        temp.onItemClickListener = DelegateItemImp(onItemClickListener)
+                    }
+                }
             }
+
+            queue.pollFirst()
         }
     }
 }

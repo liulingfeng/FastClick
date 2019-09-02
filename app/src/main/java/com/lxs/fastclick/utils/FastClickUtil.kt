@@ -85,4 +85,21 @@ object FastClickUtil {
             queue.pollFirst()
         }
     }
+
+    /**
+     * 右子为先的深度遍历
+     */
+    fun depthTravelView(rootView: View) {
+        val queue = ArrayDeque<View>()
+        queue.addLast(rootView)
+        while (!queue.isEmpty()) {
+            val temp = queue.last
+            queue.pollLast()
+            if (temp is ViewGroup) {
+                for (item in 0 until temp.childCount) {
+                    queue.addLast(temp.getChildAt(item))
+                }
+            }
+        }
+    }
 }

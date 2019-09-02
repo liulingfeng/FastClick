@@ -54,7 +54,7 @@ object FastClickUtil {
 
     /**
      * 用广度遍历
-     * 用递归性能比较差
+     * 用递归性能比较差、递归本质是栈的操作，可能会造成栈溢出
      */
     fun setClickListener(rootView: View) {
         val queue = ArrayDeque<View>()

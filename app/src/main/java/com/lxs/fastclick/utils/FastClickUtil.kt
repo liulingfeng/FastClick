@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ListView
-import com.lxs.fastclick.DelegateImp
-import com.lxs.fastclick.DelegateItemImp
+import com.lxs.fastclick.imp.DelegateImp
+import com.lxs.fastclick.imp.DelegateItemImp
 import com.lxs.fastclick.listener.DelegateOnClickListener
 import com.lxs.fastclick.listener.DelegateOnItemClickListener
 
@@ -55,7 +55,7 @@ object FastClickUtil {
         if (hasOnClick) {
             val listener = ReflectUtils.getOnClickListener(view)
 
-            if (listener !is DelegateOnClickListener) {
+            if (listener !is DelegateOnClickListener) {//可以处理不需要加快速点击的需求
                 view.setOnClickListener(DelegateImp(listener))
             }
         } else {

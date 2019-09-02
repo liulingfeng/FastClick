@@ -1,5 +1,6 @@
-package com.lxs.fastclick
+package com.lxs.fastclick.imp
 
+import android.util.Log
 import android.util.SparseArray
 import android.view.View
 import android.widget.AdapterView
@@ -14,6 +15,8 @@ import com.lxs.fastclick.utils.ToastUtils
  */
 class DelegateItemImp constructor(private var listener: AdapterView.OnItemClickListener?) :
     DelegateOnItemClickListener {
+    private val TAG = "DelegateItemImp"
+
     companion object {
         val lastTimes = SparseArray<Long>()
     }
@@ -29,7 +32,8 @@ class DelegateItemImp constructor(private var listener: AdapterView.OnItemClickL
             listener?.onItemClick(parent, view, position, id)
             lastTimes.put(view.id.plus(position), currentTime)
         } else {
-            ToastUtils.show("点击太过于频繁")
+            //这次点击丢弃
+            Log.i(TAG, "本次点击丢弃")
         }
     }
 }

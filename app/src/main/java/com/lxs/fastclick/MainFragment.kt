@@ -25,5 +25,9 @@ class MainFragment : Fragment() {
         tv_content.setOnClickListener {
             ToastUtils.show("点我干嘛")
         }
+
+        tv_content._setOnClickListener {
+
+        }
     }
 }
